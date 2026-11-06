@@ -5,7 +5,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 <script>
 // Firebase 콘솔 > 프로젝트 설정 > 내 앱 > 웹 앱 구성에서 복사한 값으로 교체하세요.
-const FIREBASE_CONFIG={apiKey:"PASTE_API_KEY",authDomain:"PASTE_PROJECT_ID.firebaseapp.com",databaseURL:"https://PASTE_DATABASE_URL",projectId:"PASTE_PROJECT_ID",appId:"PASTE_APP_ID"};
+const FIREBASE_CONFIG={apiKey:"AIzaSyAQ3MTpUji4hQmOIZy5HxPOTsC7uWi4eM0",authDomain:"lol-lol-lol-65c7a.firebaseapp.com",databaseURL:"https://lol-lol-lol-65c7a-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"lol-lol-lol-65c7a",storageBucket:"lol-lol-lol-65c7a.firebasestorage.app",messagingSenderId:"428740533132",appId:"1:428740533132:web:ef4780ce9f2b31823454a9",measurementId:"G-8K6NC5PPTN"};
 (()=>{'use strict';
 const KEY='lol-spell-tracker-rooms-local'; const OLD=[];
 const defs={flash:['점멸',300,'⚡'],teleport:['순간이동',360,'🌀'],ignite:['점화',180,'🔥'],exhaust:['탈진',240,'💀'],heal:['회복',240,'💚'],barrier:['방어막',180,'🛡️'],cleanse:['정화',240,'✨'],ghost:['유체화',240,'👻'],smite:['강타',90,'⚔️'],clarity:['총명',240,'💧'],snowball:['표식',80,'❄️']};
@@ -47,13 +47,13 @@ if(remote)remote.off();remote=ref;roomId=code;ready=false;history=[];$('undo').d
 remote.on('value',snap=>{const incoming=snap.val();if(!incoming||!Array.isArray(incoming.champs)||incoming.champs.length!==5)return;
 applying=true;state=incoming;baseGame=Math.max(0,Number(state.gameSeconds)||0);running=!!state.running;anchor=Date.now();if(running)baseGame+=Math.max(0,(Date.now()-(Number(state.savedAt)||Date.now()))/1000);
 lastSnapshot=structuredClone(incoming);render();applying=false;ready=true;setSync('실시간 공유 연결됨');},err=>setSync('읽기 실패: '+err.message));
-$('roomBadge').textContent='방 '+code;gate.hidden=true;history.replaceState(null,'',location.pathname+'?room='+code);setSync('방 연결 중...');
+$('roomBadge').textContent='방 '+code;gate.hidden=true;window.history.replaceState(null,'',location.pathname+'?room='+code);setSync('방 연결 중...');
 }catch(err){errorRoom('방 접속 실패: '+err.message)}finally{$('createRoom').disabled=$('joinRoom').disabled=false}}
 $('createRoom').onclick=()=>enterRoom(roomCode(),true);
 $('joinRoom').onclick=()=>enterRoom($('roomInput').value.trim().toUpperCase());
 $('roomInput').addEventListener('keydown',e=>{if(e.key==='Enter')$('joinRoom').click()});
 $('copyRoom').onclick=async()=>{if(!roomId)return;try{await navigator.clipboard.writeText(roomId);toast('방번호 복사 완료')}catch{prompt('방번호를 복사하세요',roomId)}};
-$('leaveRoom').onclick=()=>{if(remote)remote.off();remote=null;roomId=null;ready=false;gate.hidden=false;history.replaceState(null,'',location.pathname);$('roomBadge').textContent='방 미입장';setSync('방을 선택하세요')};
+$('leaveRoom').onclick=()=>{if(remote)remote.off();remote=null;roomId=null;ready=false;gate.hidden=false;window.history.replaceState(null,'',location.pathname);$('roomBadge').textContent='방 미입장';setSync('방을 선택하세요')};
 const urlRoom=new URLSearchParams(location.search).get('room');if(urlRoom){$('roomInput').value=urlRoom.toUpperCase();errorRoom('방번호가 입력됐습니다. 입장하기를 누르세요.')}else errorRoom(configured?'':'Firebase 설정 후 이용 가능합니다.');
 
 let toastTimer;function toast(s){const t=$('toast');t.textContent=s;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2200)}
